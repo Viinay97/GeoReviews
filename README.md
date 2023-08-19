@@ -18,7 +18,7 @@ This application enables tourists to pinpoint their location on the world map an
 1. `cd backend`
 2. `nodemon index.js`
 
-### Running the server
+### Running the frontend
 1. `cd src`
 2. `npm start`
 
