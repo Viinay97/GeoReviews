@@ -2,6 +2,8 @@ import { Close, Room } from '@material-ui/icons';
 import { useRef, useState } from 'react';
 import './login.css';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login({setShowLogin, myStorage, setCurrentUser}) {
 
@@ -21,6 +23,7 @@ export default function Login({setShowLogin, myStorage, setCurrentUser}) {
             const res = await axios.post('./users/login', user);
             myStorage.setItem("user", res.data.username);
             setCurrentUser(res.data.username);
+            toast("Login Successful!");
             setShowLogin(false);
             setError(false);
         } catch (err) {
@@ -45,6 +48,10 @@ export default function Login({setShowLogin, myStorage, setCurrentUser}) {
                     fontSize:'1.1rem',
                 }} onClick={() => setShowLogin(false)} />
             </form>
+            <ToastContainer 
+                autoClose={3000}
+                theme="dark"
+            />
         </div>
     )
 }

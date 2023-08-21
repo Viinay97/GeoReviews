@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
-import { Room, Star, AccountCircle, PersonPinCircle } from '@material-ui/icons';
+import { Room, Star, AccountCircle, PersonPinCircle, MyLocation } from '@material-ui/icons';
 import './app.css';
 import axios from 'axios';
 import { format } from 'timeago.js';
 import Register from './components/Register';
 import Login from './components/Login';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const myStorage = window.localStorage;
@@ -72,6 +74,21 @@ function App() {
             console.log(err);
         }
     }
+
+    const handleLocationClick = () => {
+        if (navigator.geolocation) {
+            toast.info("Fetching your location!");
+            navigator.geolocation.getCurrentPosition((position) => {
+                toast.success("Location fetched successfully!");
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+                setNewPlace({
+                    long: lon,
+                    lat: lat,
+                });
+            });
+        }
+    };
 
     const handleLogout = () => {
         alert("Are you sure you want to log out?");
@@ -173,6 +190,10 @@ function App() {
                             Welcome! <b>{currentUser}</b>
                         </div>
                         <button className="button logout" onClick={handleLogout}>Logout</button>
+                        <button className='button location' onClick={handleLocationClick}>
+                            <MyLocation style={{fontSize: '1.2rem', marginRight: '5px'}}/>
+                            <p>Pin</p>
+                        </button>
                     </div>
                 ) : (
                     <div className="buttons">
@@ -193,6 +214,10 @@ function App() {
                 Geo-Reviews
             </div>
         </Map>
+        <ToastContainer 
+            autoClose={3000}
+            theme="dark"
+        />
     </div>
   );
 }
