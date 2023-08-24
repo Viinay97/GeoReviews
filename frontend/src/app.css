@@ -4,18 +4,17 @@
 }
 
 .appTitle {
-  position: fixed;
-  left: 50%;
-  width: 20%;
   display: flex;
-  justify-content: space-evenly;
+  left: 50%;
+  width: 200px;
+  bottom: 10px;
+  justify-content: center;
   align-items: center;
   transform: translateX(-50%);
-  top: 10px;
   color: white;
   background: linear-gradient(45deg, var(--blue), var(--red));
   color: white;
-  padding: 10px;
+  padding: min(1.5%, 8px);
   border-radius: 30px;
   font-size: 1.5em;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
@@ -103,7 +102,7 @@ textarea {
 .buttons,
 .logout {
   position: absolute;
-  top: 30px;
+  top: 10px;
   right: 10px;
 }
 
@@ -125,26 +124,47 @@ textarea {
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
 }
 
+.help {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  color: white;
+  justify-content: space-evenly;
+  right: 90px;
+  top: 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  background-color: green;
+  padding: 6px 10px;
+  box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
 .location {
   position: absolute;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   background-color: green;
-  top: 30px;
-  right: 100px;
-  padding: 8px 14px;
+  top: 90px;
+  left: 15px;
+  padding: 8px 10px;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+.location:hover{
+  background-color: rgb(0, 85, 0);
 }
 
 .userInfo {
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 15px;
   background: linear-gradient(45deg, var(--blue), var(--red));
   color: white;
-  padding: 10px;
+  padding: min(1%, 10px);
   border-radius: 30px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   font-size: 0.9rem;
   display: flex;
   justify-content: space-evenly;
@@ -170,4 +190,21 @@ textarea {
   background-color: var(--blue);
   padding: 8px 14px;
   box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+@media screen and (min-width: 641px) {
+  .appTitle {
+    position: relative;
+    top: 10px;
+  }
+}
+@media screen and (max-width: 640px) {
+  .location {
+    height: 50px;
+    width: 50px;
+  }
+  .appTitle {
+    position: absolute;
+    bottom: 10px;
+  }
 }

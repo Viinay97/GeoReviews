@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
-import { Room, Star, AccountCircle, PersonPinCircle, MyLocation } from '@material-ui/icons';
+import { Room, Star, AccountCircle, RateReview, MyLocation, Help} from '@material-ui/icons';
 import './app.css';
 import axios from 'axios';
 import { format } from 'timeago.js';
 import Register from './components/Register';
 import Login from './components/Login';
+import Geocoder from './components/Geocoder';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Tooltip from '@mui/material/Tooltip';
 
 function App() {
     const myStorage = window.localStorage;
@@ -22,8 +24,6 @@ function App() {
     const [showLogin, setShowLogin] = useState(false);
 
     const [viewport, setViewport] = useState({
-        width: "100vw",
-        height: "100vh",
         latitude: 28.6448,
         longitude: 77.2167,
         zoom: 4,
@@ -41,6 +41,10 @@ function App() {
         getPins();
     }, []);
 
+    useEffect(() => {
+        console.log("New place changed");
+    }, [newPlace])
+
     const handleMarkerClick = (id, lat, long) => {
         setCurrentPlaceId(id);
         setViewport(
@@ -49,11 +53,13 @@ function App() {
     }
 
     const handleAddClick = (e) => {
-        const {lng, lat} = e.lngLat;
-        setNewPlace({
-            long: lng,
-            lat: lat,
-        })
+        if(currentUser) {
+            const {lng, lat} = e.lngLat;
+            setNewPlace({
+                long: lng,
+                lat: lat,
+            })
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -155,7 +161,7 @@ function App() {
                         latitude={newPlace.lat}
                         anchor="left"
                         closeButton={true}
-                        closeOnClick={false}
+                        closeOnClick={true}
                         onClose={() => setCurrentPlaceId(null)}
                     >
                         <div className='card'>
@@ -187,13 +193,17 @@ function App() {
                     <div>
                         <div className="userInfo">
                             <AccountCircle />
-                            Welcome! <b>{currentUser}</b>
+                            <p>Welcome! <b>{currentUser}</b></p>
                         </div>
+                        <Tooltip 
+                        title={<p style={{fontSize: '0.8rem'}}>Double-Tap to pin any location</p>}
+                        placement="bottom-start" arrow>
+                            <div className="help">
+                                <Help style={{marginRight: '5px'}}/>
+                                Help
+                            </div>
+                        </Tooltip>
                         <button className="button logout" onClick={handleLogout}>Logout</button>
-                        <button className='button location' onClick={handleLocationClick}>
-                            <MyLocation style={{fontSize: '1.2rem', marginRight: '5px'}}/>
-                            <p>Pin</p>
-                        </button>
                     </div>
                 ) : (
                     <div className="buttons">
@@ -210,16 +220,26 @@ function App() {
                     />
                 )}
             <div className='appTitle'>
-                <PersonPinCircle style={{fontSize:"2rem"}}/>
-                Geo-Reviews
-            </div>
+                <RateReview style={{fontSize:"1.8rem", marginRight:"10px"}}/>
+                Geo Reviews
+            </div>             
+            {currentUser && 
+                <div>
+                    <Tooltip title="Pin my location" placement="bottom-end" arrow>
+                        <button className='button location' onClick={handleLocationClick}>
+                            <MyLocation style={{fontSize: '1.3rem'}}/>
+                        </button>   
+                    </Tooltip>
+                    <Geocoder />
+                </div>
+            }
         </Map>
         <ToastContainer 
             autoClose={3000}
             theme="dark"
         />
     </div>
-  );
+    );
 }
 
 export default App;
