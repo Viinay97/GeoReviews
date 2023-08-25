@@ -13,7 +13,7 @@ function Geocoder() {
     ctrl.on('result', (e) => {
         const coords = e.result.geometry.coordinates;
     })
-    return null
+    return null;
 }
 
 

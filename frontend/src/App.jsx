@@ -41,10 +41,6 @@ function App() {
         getPins();
     }, []);
 
-    useEffect(() => {
-        console.log("New place changed");
-    }, [newPlace])
-
     const handleMarkerClick = (id, lat, long) => {
         setCurrentPlaceId(id);
         setViewport(
@@ -102,6 +98,11 @@ function App() {
         setCurrentUser(null);
     }
 
+    const handleClosePopup = () => {
+        setNewPlace(null); 
+        setCurrentPlaceId(null);
+    }
+
     return (
         <div className="App">
             <Map
@@ -136,7 +137,7 @@ function App() {
                             anchor="left"
                             closeButton={true}
                             closeOnClick={false}
-                            onClose={() => setCurrentPlaceId(null)}
+                            onClose={handleClosePopup}
                         >
                             <div className='card'>
                                 <label>Place</label>
@@ -162,7 +163,7 @@ function App() {
                         anchor="left"
                         closeButton={true}
                         closeOnClick={true}
-                        onClose={() => setCurrentPlaceId(null)}
+                        onClose={handleClosePopup}
                     >
                         <div className='card'>
                             <form className='pinForm' onSubmit={handleSubmit}>
@@ -195,8 +196,15 @@ function App() {
                             <AccountCircle />
                             <p>Welcome! <b>{currentUser}</b></p>
                         </div>
-                        <Tooltip 
-                        title={<p style={{fontSize: '0.8rem'}}>Double-Tap to pin any location</p>}
+                        <Tooltip
+                        title={<div className='helpList'>
+                            <p>1. Click 
+                                <span className='locationSpan'>
+                                <MyLocation style={{fontSize: '0.9rem'}}/>
+                                </span> 
+                            to pin your live location.</p>
+                            <p>2. Double-Tap to pin any location.</p>
+                        </div>}
                         placement="bottom-start" arrow>
                             <div className="help">
                                 <Help style={{marginRight: '5px'}}/>
