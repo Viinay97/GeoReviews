@@ -93,9 +93,11 @@ function App() {
     };
 
     const handleLogout = () => {
-        alert("Are you sure you want to log out?");
-        myStorage.removeItem("user");
-        setCurrentUser(null);
+        const answer = window.confirm("Are you sure you want to log out?");
+        if(answer) {
+            myStorage.removeItem("user");
+            setCurrentUser(null);
+        }
     }
 
     const handleClosePopup = () => {
@@ -200,7 +202,7 @@ function App() {
                         title={<div className='helpList'>
                             <p>1. Click 
                                 <span className='locationSpan'>
-                                <MyLocation style={{fontSize: '0.9rem'}}/>
+                                <MyLocation style={{fontSize: '0.6rem'}}/>
                                 </span> 
                             to pin your live location.</p>
                             <p>2. Double-Tap to pin any location.</p>
@@ -215,8 +217,14 @@ function App() {
                     </div>
                 ) : (
                     <div className="buttons">
-                        <button className="button login" onClick={() => setShowLogin(true)}>Login</button>
-                        <button className="button register" onClick={() => setShowRegister(true)}>Register</button>
+                        <button className="button login" onClick={() => {
+                            setShowRegister(false);
+                            setShowLogin(true);
+                        }}>Login</button>
+                        <button className="button register" onClick={() => {
+                            setShowLogin(false);
+                            setShowRegister(true);
+                        }}>Register</button>
                     </div>
                 )}
                 {showRegister && <Register setShowRegister={setShowRegister} />}

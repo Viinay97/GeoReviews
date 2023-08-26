@@ -22,7 +22,7 @@
 
 .card {
   width: 215px;
-  height: 250px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -140,7 +140,7 @@ textarea {
 }
 
 .helpList {
-  font-size: 1rem;
+  font-size: 0.7rem;
   font-weight: normal;
   padding: 2px;
 }
